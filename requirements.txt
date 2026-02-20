@@ -1,11 +1,11 @@
 # Python dependencies for ttnn-eltwise-op-tester
 # These are in addition to tt-metal dependencies
 
-# For PDF report generation
-markdown>=3.10.0
+# For PDF report generation (markdown -> PDF via pandoc)
+markdown>=3.3.0
 jinja2>=3.0.0
 
-# For plotting  
+# For plotting
 matplotlib>=3.5.0
 seaborn>=0.12.0
 pandas>=1.5.0
@@ -15,5 +15,6 @@ numpy>=1.23.0
 scipy>=1.9.0
 loguru>=0.6.0
 
-# Note: Chrome/Chromium required for PDF generation
-# Install via: apt-get install chromium-browser (Linux) or brew install --cask google-chrome (macOS)
+# System dependencies for PDF generation:
+# - pandoc: apt-get install pandoc (Linux) or brew install pandoc (macOS)
+# - pdflatex: apt-get install texlive-full (Linux) or brew install basictex (macOS)
