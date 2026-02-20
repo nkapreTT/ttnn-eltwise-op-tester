@@ -1,13 +1,34 @@
 #!/bin/bash
 # Generate accuracy PDF report using Chrome headless
-# Alternative to pandoc+pdflatex for systems without LaTeX installed
+# Supports multiple operations in a unified PDF
+#
+# Usage:
+#   Single operation: ./generate_pdf_chrome.sh gelu bfloat16
+#   Multiple operations: ./generate_pdf_chrome.sh "gelu,cos,sin" bfloat16
+#   All operations: ./generate_pdf_chrome.sh all bfloat16
 
 set -e
 
-OPERATION=${1:-"gelu"}
+OPERATIONS_ARG=${1:-"gelu"}
 DTYPE=${2:-"bfloat16"}
 
-echo "Generating PDF report for ${OPERATION} (${DTYPE})..."
+# Parse operations
+if [ "$OPERATIONS_ARG" = "all" ]; then
+    # All operations from report template
+    OPERATIONS="gelu,cos,sin,cosh,sinh,tanh,exp,log,sigmoid"
+elif [[ "$OPERATIONS_ARG" =~ "," ]]; then
+    # Multiple operations (comma-separated)
+    OPERATIONS="$OPERATIONS_ARG"
+else
+    # Single operation
+    OPERATIONS="$OPERATIONS_ARG"
+fi
+
+# Convert to array
+IFS=',' read -ra OPS_ARRAY <<< "$OPERATIONS"
+
+echo "Generating PDF report for: ${OPS_ARRAY[@]} (${DTYPE})..."
+echo ""
 
 # Step 1: Generate markdown report using Jinja2 template
 python3 << EOFPY
@@ -17,27 +38,38 @@ from datetime import datetime
 env = Environment(loader=FileSystemLoader('templates'))
 template = env.get_template('report.md.j2')
 
-with open('${OPERATION}_report.md', 'w') as f:
+operations = '${OPERATIONS}'.split(',')
+output_name = '_'.join(operations) if len(operations) <= 3 else f"{len(operations)}_operations"
+
+with open(f'{output_name}_report.md', 'w') as f:
     f.write(template.render(
-        unary_operations=['${OPERATION}'],
+        unary_operations=operations,
         binary_operations=[],
         timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         dtypes=['${DTYPE}']
     ))
 
-print('✓ Generated ${OPERATION}_report.md')
+print(f'✓ Generated {output_name}_report.md')
+print(f'Output filename base: {output_name}')
 EOFPY
 
+# Get output filename from python
+OUTPUT_BASE=$(python3 -c "
+operations = '${OPERATIONS}'.split(',')
+output_name = '_'.join(operations) if len(operations) <= 3 else f\"{len(operations)}_operations\"
+print(output_name)
+")
+
 # Step 2: Convert markdown to HTML with CSS styling
-cat > /tmp/md2html_${OPERATION}.py << 'EOFPY2'
+cat > /tmp/md2html_multi.py << 'EOFPY2'
 import markdown
 import sys
 
-operation = sys.argv[1]
+output_base = sys.argv[1]
 dtype = sys.argv[2]
 
 # Read markdown
-with open(f'{operation}_report.md', 'r') as f:
+with open(f'{output_base}_report.md', 'r') as f:
     md_content = f.read()
 
 # Replace LaTeX \newpage with CSS page breaks
@@ -55,7 +87,7 @@ full_html = f"""
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{operation.upper()} Accuracy Report</title>
+    <title>TTNN Accuracy Report - {output_base.replace('_', ', ').upper()}</title>
     <style>
         @media print {{
             @page {{ margin: 1in; }}
@@ -138,13 +170,13 @@ full_html = f"""
 </html>
 """
 
-with open(f'{operation}_report.html', 'w') as f:
+with open(f'{output_base}_report.html', 'w') as f:
     f.write(full_html)
 
-print(f'✓ Generated {operation}_report.html')
+print(f'✓ Generated {output_base}_report.html')
 EOFPY2
 
-python3 /tmp/md2html_${OPERATION}.py "${OPERATION}" "${DTYPE}"
+python3 /tmp/md2html_multi.py "${OUTPUT_BASE}" "${DTYPE}"
 
 # Step 3: Convert HTML to PDF using Chrome headless
 # This requires Chrome/Chromium to be installed
@@ -161,11 +193,11 @@ else
     exit 1
 fi
 
-"$CHROME_BIN" --headless --disable-gpu --print-to-pdf="${OPERATION}_report.pdf" "$(pwd)/${OPERATION}_report.html" 2>&1 | grep -v "DevTools" || true
+"$CHROME_BIN" --headless --disable-gpu --print-to-pdf="${OUTPUT_BASE}_report.pdf" "$(pwd)/${OUTPUT_BASE}_report.html" 2>&1 | grep -v "DevTools" || true
 
-if [ -f "${OPERATION}_report.pdf" ]; then
-    echo "✓ PDF generated: ${OPERATION}_report.pdf"
-    ls -lh "${OPERATION}_report.pdf"
+if [ -f "${OUTPUT_BASE}_report.pdf" ]; then
+    echo "✓ PDF generated: ${OUTPUT_BASE}_report.pdf"
+    ls -lh "${OUTPUT_BASE}_report.pdf"
 else
     echo "Error: PDF generation failed"
     exit 1
@@ -174,5 +206,6 @@ fi
 echo ""
 echo "==================================================="
 echo "SUCCESS: Report generated successfully!"
-echo "PDF: ${OPERATION}_report.pdf"
+echo "PDF: ${OUTPUT_BASE}_report.pdf"
+echo "Operations: ${OPS_ARRAY[@]}"
 echo "==================================================="
