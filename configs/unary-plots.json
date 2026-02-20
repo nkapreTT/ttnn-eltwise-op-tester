@@ -610,7 +610,19 @@
                             10
                         ],
                         "yscale": "linear",
-                        "show_ulp_stats_inset": true
+                        "show_ulp_stats_inset": true,
+                        "xlim": [
+                            -10.0,
+                            10.0
+                        ],
+                        "xscale": "linear",
+                        "xticks": [
+                            -10,
+                            -5,
+                            0,
+                            5,
+                            10
+                        ]
                     }
                 },
                 {
@@ -629,7 +641,19 @@
                             0,
                             100
                         ],
-                        "show_ulp_stats_inset": true
+                        "show_ulp_stats_inset": true,
+                        "xlim": [
+                            -10.0,
+                            10.0
+                        ],
+                        "xscale": "linear",
+                        "xticks": [
+                            -10,
+                            -5,
+                            0,
+                            5,
+                            10
+                        ]
                     }
                 },
                 {
@@ -924,7 +948,17 @@
                             0,
                             10
                         ],
-                        "show_ulp_stats_inset": true
+                        "show_ulp_stats_inset": true,
+                        "xscale": "linear",
+                        "xticks": [
+                            -3.141592653589793,
+                            -2,
+                            -1,
+                            0,
+                            1,
+                            2,
+                            3.141592653589793
+                        ]
                     }
                 },
                 {
@@ -946,7 +980,17 @@
                             0,
                             10
                         ],
-                        "show_ulp_stats_inset": true
+                        "show_ulp_stats_inset": true,
+                        "xscale": "linear",
+                        "xticks": [
+                            -3.141592653589793,
+                            -2,
+                            -1,
+                            0,
+                            1,
+                            2,
+                            3.141592653589793
+                        ]
                     }
                 },
                 {
@@ -1253,7 +1297,15 @@
                             10.0
                         ],
                         "outlier_annotation": "Max ULP: 3.25e+35 (gelu), 1.14e+36 (gelu_approx)",
-                        "show_ulp_stats_inset": true
+                        "show_ulp_stats_inset": true,
+                        "xscale": "linear",
+                        "xticks": [
+                            -10.0,
+                            -5,
+                            0,
+                            5,
+                            10.0
+                        ]
                     }
                 },
                 {
