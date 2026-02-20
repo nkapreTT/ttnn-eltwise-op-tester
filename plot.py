@@ -200,15 +200,7 @@ def plot(plot_entry):
 
     # Add outlier annotation if specified (for plots with capped ylim)
     if "outlier_annotation" in plot_params:
-        annotation_text = plot_params["outlier_annotation"]
-        # Place annotation at top-right of plot
-        ax.text(0.95, 0.95, annotation_text,
-                transform=ax.transAxes,
-                fontsize=40,
-                verticalalignment="top",
-                horizontalalignment="right",
-                bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
-        # Add arrow/bracket at top of y-axis to indicate continuation
+        # Add arrow at top of y-axis to indicate values beyond ylim
         ax.annotate("", xy=(0.02, 0.98), xytext=(0.02, 0.88),
                     xycoords="axes fraction",
                     arrowprops=dict(arrowstyle="-[", lw=3, color="red"))
