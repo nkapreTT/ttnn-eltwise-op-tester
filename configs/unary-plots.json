@@ -1065,8 +1065,8 @@
                     ],
                     "plot_params": {
                         "xlim": [
-                            -1e38,
-                            1e38
+                            -1e+38,
+                            1e+38
                         ],
                         "yscale": "linear",
                         "ylim": [
@@ -1239,15 +1239,16 @@
                         "accuracy_results/results/unary/gelu/gelu_approx-bfloat16-[1].csv"
                     ],
                     "plot_params": {
-                        "xlim": [
-                            -10,
-                            10
-                        ],
-                        "yscale": "linear",
+                        "yscale": "log",
                         "ylim": [
-                            0,
-                            50
-                        ]
+                            0.1,
+                            10000000000.0
+                        ],
+                        "xlim": [
+                            -10.0,
+                            10.0
+                        ],
+                        "outlier_annotation": "Max ULP: 3.25e+35 (gelu), 1.14e+36 (gelu_approx)"
                     }
                 },
                 {
@@ -1259,7 +1260,7 @@
                     "files": [
                         "accuracy_results/results/unary/gelu/gelu-bfloat16-[1].csv",
                         "accuracy_results/results/unary/gelu/gelu_approx-bfloat16-[1].csv",
-                         "accuracy_results/results/unary/gelu/gelu-tanh-bfloat16-[1].csv"
+                        "accuracy_results/results/unary/gelu/gelu-tanh-bfloat16-[1].csv"
                     ],
                     "plot_params": {
                         "xlim": [
@@ -1575,7 +1576,8 @@
                             1.0
                         ],
                         "ylim": [
-                            1e-3, 2e5
+                            0.001,
+                            200000.0
                         ],
                         "xscale": "linear",
                         "yscale": "linear"
@@ -1953,8 +1955,11 @@
                             0,
                             10
                         ],
-                        "horizontal_lines": [ 
-                            [ 1, "1 ULP" ]
+                        "horizontal_lines": [
+                            [
+                                1,
+                                "1 ULP"
+                            ]
                         ],
                         "yscale": "linear",
                         "xbase": 2
@@ -1992,7 +1997,8 @@
                                 "100 ULP - \"great\""
                             ],
                             [
-                                300, "300 ULP - \"accurate\""
+                                300,
+                                "300 ULP - \"accurate\""
                             ]
                         ]
                     }
@@ -2277,7 +2283,7 @@
                     "plot_params": {
                         "xlim": [
                             0,
-                            1e+10
+                            10000000000.0
                         ],
                         "ylim": [
                             0,
@@ -2305,11 +2311,11 @@
                     "plot_params": {
                         "xlim": [
                             1,
-                            1e38
+                            1e+38
                         ],
                         "ylim": [
                             0,
-                            1e7
+                            10000000.0
                         ],
                         "horizontal_lines": [
                             [
@@ -2388,7 +2394,7 @@
                     "plot_params": {
                         "xlim": [
                             -0.9,
-                            1e+4
+                            10000.0
                         ],
                         "ylim": [
                             0,
@@ -2413,7 +2419,7 @@
                             2
                         ],
                         "ylim": [
-                            1e-1,
+                            0.1,
                             10
                         ],
                         "horizontal_lines": [
@@ -2521,8 +2527,8 @@
                             100
                         ],
                         "xlim": [
-                            -1e5,
-                            1e5
+                            -100000.0,
+                            100000.0
                         ]
                     }
                 },
@@ -2628,8 +2634,8 @@
                     ],
                     "plot_params": {
                         "xlim": [
-                            -1e38,
-                            1e38
+                            -1e+38,
+                            1e+38
                         ],
                         "ylim": [
                             0,
@@ -2938,7 +2944,7 @@
                         "yscale": "linear",
                         "ylim": [
                             0,
-                            1e6
+                            1000000.0
                         ]
                     }
                 },
@@ -4034,7 +4040,8 @@
                             10
                         ],
                         "ylim": [
-                            -10, 10
+                            -10,
+                            10
                         ],
                         "xscale": "linear",
                         "yscale": "linear"
