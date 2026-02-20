@@ -213,6 +213,39 @@ def plot(plot_entry):
                     xycoords="axes fraction",
                     arrowprops=dict(arrowstyle="-[", lw=3, color="red"))
 
+    # Add ULP statistics inset if specified
+    if "show_ulp_stats_inset" in plot_params and plot_params["show_ulp_stats_inset"]:
+        # Calculate max ULP for each operation
+        if hseries is not None:
+            ulp_stats = []
+            for op in data[hseries].unique():
+                op_data = data[data[hseries] == op]
+                # Get ULP values (using first yname which should be max_ulp_error)
+                yname = ynames[0][0]
+                max_ulp = op_data[yname].max()
+                mean_ulp = op_data[yname].mean()
+                ulp_stats.append({'op': op, 'max': max_ulp, 'mean': mean_ulp})
+
+            # Create inset axes in top-left corner
+            from matplotlib.patches import Rectangle
+            inset_ax = fig.add_axes([0.15, 0.65, 0.25, 0.25])  # [left, bottom, width, height]
+            inset_ax.axis('off')
+
+            # Create text for inset
+            inset_text = "Max ULP:\n"
+            for stat in sorted(ulp_stats, key=lambda x: x['max'], reverse=True):
+                inset_text += f"{stat['op']}: {stat['max']:.2e}\n"
+
+            # Add text box with stats
+            inset_ax.text(0.05, 0.95, inset_text,
+                         transform=inset_ax.transAxes,
+                         fontsize=35,
+                         verticalalignment='top',
+                         horizontalalignment='left',
+                         bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.9, edgecolor='black', linewidth=2),
+                         family='monospace')
+
+
     if yticks is not None:
         # print(f"yticks = {yticks}")
         ax.set_yticks(yticks)

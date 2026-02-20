@@ -609,7 +609,8 @@
                             0,
                             10
                         ],
-                        "yscale": "linear"
+                        "yscale": "linear",
+                        "show_ulp_stats_inset": true
                     }
                 },
                 {
@@ -627,7 +628,8 @@
                         "ylim": [
                             0,
                             100
-                        ]
+                        ],
+                        "show_ulp_stats_inset": true
                     }
                 },
                 {
@@ -921,7 +923,8 @@
                         "ylim": [
                             0,
                             10
-                        ]
+                        ],
+                        "show_ulp_stats_inset": true
                     }
                 },
                 {
@@ -942,7 +945,8 @@
                         "ylim": [
                             0,
                             10
-                        ]
+                        ],
+                        "show_ulp_stats_inset": true
                     }
                 },
                 {
@@ -1248,7 +1252,8 @@
                             -10.0,
                             10.0
                         ],
-                        "outlier_annotation": "Max ULP: 3.25e+35 (gelu), 1.14e+36 (gelu_approx)"
+                        "outlier_annotation": "Max ULP: 3.25e+35 (gelu), 1.14e+36 (gelu_approx)",
+                        "show_ulp_stats_inset": true
                     }
                 },
                 {
