@@ -249,6 +249,12 @@ def plot(plot_entry):
     if xticks is not None:
         ax.set_xticks(xticks)
 
+    # Hide legend if only one operation (no approx variants)
+    if hseries is not None and len(data[hseries].unique()) == 1:
+        legend = ax.get_legend()
+        if legend is not None:
+            legend.remove()
+
     for output_path in all_outputs:
         plt.savefig(output_path, bbox_inches="tight", pad_inches=0.0)
 

@@ -1296,7 +1296,6 @@
                             -10.0,
                             10.0
                         ],
-                        "outlier_annotation": "Max ULP: 3.25e+35 (gelu), 1.14e+36 (gelu_approx)",
                         "show_ulp_stats_inset": true,
                         "xscale": "linear",
                         "xticks": [
