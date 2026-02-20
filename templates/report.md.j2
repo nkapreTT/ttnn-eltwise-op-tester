@@ -17,35 +17,38 @@ This means that for a given ULP error of 1 with bfloat16, the ULP error for floa
 
 # Unary Operations
 
-{% for dtype in dtypes %}
-
-## {{ dtype }}
-
 {% for operation in unary_operations %}
 
-### ttnn.{{ operation }}
+## ttnn.{{ operation }}
+
+{% for dtype in dtypes %}
+
+### {{ dtype }}
 
 ![ttnn.{{ operation }}](accuracy_results/plots/unary/ulp/{{operation}}/{{ operation }}-{{ dtype }}.png)
 
 {% endfor %}
+
+\newpage
 
 {% endfor %}
 
 
 # Binary Operations
 
-{% for dtype in dtypes %}
-
-## {{ dtype }}
-
 {% for operation in binary_operations %}
 
-### ttnn.{{ operation }}
+## ttnn.{{ operation }}
+
+{% for dtype in dtypes %}
+
+### {{ dtype }}
 
 ![ttnn.{{ operation }}](accuracy_results/plots/binary/heatmaps/{{ operation }}/{{ operation }}[{{ dtype }}].png)
 
-
 {% endfor %}
+
+\newpage
 
 {% endfor %}
 
